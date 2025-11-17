@@ -1,5 +1,9 @@
 import pytest
-from classes.many_to_many import Article, Magazine, Author
+
+from classes.many_to_many import Article
+from classes.many_to_many import Magazine
+from classes.many_to_many import Author
+
 
 class TestArticle:
     """Article in many_to_many.py"""
@@ -20,27 +24,29 @@ class TestArticle:
         magazine = Magazine("Vogue", "Fashion")
         article_1 = Article(author, magazine, "How to wear a tutu with style")
 
+        # comment out the next two lines if using Exceptions
+    
         assert isinstance(article_1.title, str)
 
-        # Attempting to modify title should raise AttributeError
-        with pytest.raises(AttributeError):
-            article_1.title = 500
+        # uncomment the next two lines if using Exceptions
+        # with pytest.raises(Exception):
+        #     Article(author, magazine, 500)
 
     def test_title_is_valid(self):
         """title is between 5 and 50 characters inclusive"""
         author = Author("Carry Bradshaw")
         magazine = Magazine("Vogue", "Fashion")
-
-        # valid title
         article_1 = Article(author, magazine, "How to wear a tutu with style")
+
         assert 5 <= len(article_1.title) <= 50
 
-        # invalid titles
-        with pytest.raises(Exception):
-            Article(author, magazine, "Test")  # too short
+        # uncomment the next two lines if using Exceptions
+        # with pytest.raises(Exception):
+        #     Article(author, magazine, "Test")
 
-        with pytest.raises(Exception):
-            Article(author, magazine, "A"*51)  # too long
+        # uncomment the next two lines if using Exceptions
+        # with pytest.raises(Exception):
+        #     Article(author, magazine, "How to wear a tutu with style and walk confidently down the street")
 
     def test_has_an_author(self):
         """article has an author"""
@@ -59,11 +65,13 @@ class TestArticle:
         author_2 = Author("Nathaniel Hawthorne")
         magazine = Magazine("Vogue", "Fashion")
         article_1 = Article(author_1, magazine, "How to wear a tutu with style")
+        article_2 = Article(author_2, magazine, "Dating life in NYC")
 
         assert isinstance(article_1.author, Author)
+        assert isinstance(article_2.author, Author)
         
-        # author can be reassigned
         article_1.author = author_2
+        assert isinstance(article_1.author, Author)
         assert article_1.author.name == "Nathaniel Hawthorne"
 
     def test_has_a_magazine(self):
@@ -83,15 +91,18 @@ class TestArticle:
         magazine_1 = Magazine("Vogue", "Fashion")
         magazine_2 = Magazine("AD", "Architecture & Design")
         article_1 = Article(author, magazine_1, "How to wear a tutu with style")
+        article_2 = Article(author, magazine_2, "Dating life in NYC")
 
-        # can reassign magazine
+        assert isinstance(article_1.magazine, Magazine)
+        assert isinstance(article_2.magazine, Magazine)
+        
         article_1.magazine = magazine_2
         assert isinstance(article_1.magazine, Magazine)
         assert article_1.magazine.name == "AD"
 
     def test_get_all_articles(self):
         """Article class has all attribute"""
-        Article.all = []  # reset
+        Article.all = []
         author = Author("Carry Bradshaw")
         magazine_1 = Magazine("Vogue", "Fashion")
         magazine_2 = Magazine("AD", "Architecture & Design")
